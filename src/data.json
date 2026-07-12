@@ -1,0 +1,476 @@
+{
+  "months": [
+    "2023-01",
+    "2023-02",
+    "2023-03",
+    "2023-04",
+    "2023-05",
+    "2023-06",
+    "2023-07"
+  ],
+  "revenueTable": [
+    {
+      "region": "Central",
+      "group": "Hub",
+      "monthly": [
+        0.11,
+        0.11,
+        0.13,
+        0.14,
+        0.14,
+        0.13,
+        0.14
+      ],
+      "total": 0.9,
+      "stores": 1
+    },
+    {
+      "region": "Central",
+      "group": "Spoke",
+      "monthly": [
+        12.86,
+        11.8,
+        12.72,
+        12.59,
+        12.55,
+        11.79,
+        12.69
+      ],
+      "total": 87.0,
+      "stores": 85
+    },
+    {
+      "region": "HCMC",
+      "group": "Hub",
+      "monthly": [
+        1.33,
+        1.3,
+        1.5,
+        1.52,
+        1.41,
+        1.48,
+        1.53
+      ],
+      "total": 10.07,
+      "stores": 7
+    },
+    {
+      "region": "HCMC",
+      "group": "Other",
+      "monthly": [
+        0.14,
+        0.14,
+        0.16,
+        0.18,
+        0.16,
+        0.15,
+        0.17
+      ],
+      "total": 1.1,
+      "stores": 1
+    },
+    {
+      "region": "HCMC",
+      "group": "Spoke",
+      "monthly": [
+        60.12,
+        59.25,
+        66.44,
+        65.06,
+        59.72,
+        57.18,
+        61.51
+      ],
+      "total": 429.28,
+      "stores": 402
+    },
+    {
+      "region": "Mekong Delta",
+      "group": "Hub",
+      "monthly": [
+        0.23,
+        0.2,
+        0.21,
+        0.2,
+        0.2,
+        0.18,
+        0.18
+      ],
+      "total": 1.4,
+      "stores": 1
+    },
+    {
+      "region": "Mekong Delta",
+      "group": "Spoke",
+      "monthly": [
+        15.58,
+        13.11,
+        14.05,
+        13.59,
+        13.51,
+        12.16,
+        12.79
+      ],
+      "total": 94.79,
+      "stores": 109
+    },
+    {
+      "region": "North",
+      "group": "Spoke",
+      "monthly": [
+        18.08,
+        15.76,
+        18.0,
+        20.01,
+        18.13,
+        16.13,
+        17.29
+      ],
+      "total": 123.4,
+      "stores": 144
+    },
+    {
+      "region": "South East",
+      "group": "Hub",
+      "monthly": [
+        0.43,
+        0.39,
+        0.46,
+        0.4,
+        0.37,
+        0.36,
+        0.39
+      ],
+      "total": 2.8,
+      "stores": 2
+    },
+    {
+      "region": "South East",
+      "group": "Spoke",
+      "monthly": [
+        25.56,
+        21.89,
+        23.25,
+        23.2,
+        22.88,
+        20.98,
+        22.53
+      ],
+      "total": 160.29,
+      "stores": 166
+    }
+  ],
+  "kpis": {
+    "totalRevenueB": 911.0,
+    "hubSharePct": 1.7,
+    "hubStores": 11,
+    "spokeStores": 906,
+    "avgMonthlyRevPerHub": 197.0,
+    "avgMonthlyRevPerSpoke": 141.0,
+    "hubSpokeRatio": 1.4
+  },
+  "regionTrend": [
+    {
+      "month": "2023-01",
+      "Central": 12.98,
+      "HCMC": 61.6,
+      "Mekong Delta": 15.82,
+      "North": 18.08,
+      "South East": 25.99
+    },
+    {
+      "month": "2023-02",
+      "Central": 11.91,
+      "HCMC": 60.69,
+      "Mekong Delta": 13.31,
+      "North": 15.76,
+      "South East": 22.28
+    },
+    {
+      "month": "2023-03",
+      "Central": 12.85,
+      "HCMC": 68.1,
+      "Mekong Delta": 14.26,
+      "North": 18.0,
+      "South East": 23.71
+    },
+    {
+      "month": "2023-04",
+      "Central": 12.72,
+      "HCMC": 66.77,
+      "Mekong Delta": 13.79,
+      "North": 20.01,
+      "South East": 23.6
+    },
+    {
+      "month": "2023-05",
+      "Central": 12.7,
+      "HCMC": 61.29,
+      "Mekong Delta": 13.71,
+      "North": 18.13,
+      "South East": 23.25
+    },
+    {
+      "month": "2023-06",
+      "Central": 11.92,
+      "HCMC": 58.82,
+      "Mekong Delta": 12.33,
+      "North": 16.13,
+      "South East": 21.33
+    },
+    {
+      "month": "2023-07",
+      "Central": 12.83,
+      "HCMC": 63.21,
+      "Mekong Delta": 12.97,
+      "North": 17.29,
+      "South East": 22.92
+    }
+  ],
+  "hubTracking": [
+    {
+      "date": "2023-07-09",
+      "Created": 74,
+      "Shipped": 30,
+      "Received": 0,
+      "Canceled": 0,
+      "Total": 104
+    },
+    {
+      "date": "2023-07-10",
+      "Created": 0,
+      "Shipped": 65,
+      "Received": 0,
+      "Canceled": 0,
+      "Total": 65
+    },
+    {
+      "date": "2023-07-11",
+      "Created": 0,
+      "Shipped": 109,
+      "Received": 0,
+      "Canceled": 0,
+      "Total": 109
+    },
+    {
+      "date": "2023-07-12",
+      "Created": 0,
+      "Shipped": 69,
+      "Received": 46,
+      "Canceled": 0,
+      "Total": 115
+    },
+    {
+      "date": "2023-07-13",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 114,
+      "Canceled": 0,
+      "Total": 114
+    },
+    {
+      "date": "2023-07-14",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 89,
+      "Canceled": 0,
+      "Total": 89
+    },
+    {
+      "date": "2023-07-15",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 42,
+      "Canceled": 0,
+      "Total": 42
+    },
+    {
+      "date": "2023-07-16",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 57,
+      "Canceled": 0,
+      "Total": 57
+    },
+    {
+      "date": "2023-07-17",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 119,
+      "Canceled": 0,
+      "Total": 119
+    },
+    {
+      "date": "2023-07-18",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 130,
+      "Canceled": 0,
+      "Total": 130
+    },
+    {
+      "date": "2023-07-19",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 161,
+      "Canceled": 0,
+      "Total": 161
+    },
+    {
+      "date": "2023-07-20",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 160,
+      "Canceled": 0,
+      "Total": 160
+    },
+    {
+      "date": "2023-07-21",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 100,
+      "Canceled": 0,
+      "Total": 100
+    },
+    {
+      "date": "2023-07-22",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 103,
+      "Canceled": 0,
+      "Total": 103
+    },
+    {
+      "date": "2023-07-23",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 115,
+      "Canceled": 0,
+      "Total": 115
+    },
+    {
+      "date": "2023-07-24",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 68,
+      "Canceled": 0,
+      "Total": 68
+    },
+    {
+      "date": "2023-07-25",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 90,
+      "Canceled": 0,
+      "Total": 90
+    },
+    {
+      "date": "2023-07-26",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 184,
+      "Canceled": 0,
+      "Total": 184
+    },
+    {
+      "date": "2023-07-27",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 172,
+      "Canceled": 0,
+      "Total": 172
+    },
+    {
+      "date": "2023-07-28",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 135,
+      "Canceled": 0,
+      "Total": 135
+    },
+    {
+      "date": "2023-07-29",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 107,
+      "Canceled": 0,
+      "Total": 107
+    },
+    {
+      "date": "2023-07-30",
+      "Created": 0,
+      "Shipped": 0,
+      "Received": 18,
+      "Canceled": 78,
+      "Total": 96
+    }
+  ],
+  "tfStatus": [
+    {
+      "status": "Received",
+      "count": 6744
+    },
+    {
+      "status": "Shipped",
+      "count": 1135
+    },
+    {
+      "status": "Created",
+      "count": 132
+    },
+    {
+      "status": "Canceled",
+      "count": 282
+    }
+  ],
+  "bottleneck": [
+    {
+      "SHIPPED_STORE": "Pharmacy523",
+      "TFCount": 1128,
+      "CancelRate": 5.1
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy244",
+      "TFCount": 402,
+      "CancelRate": 1.0
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy866",
+      "TFCount": 367,
+      "CancelRate": 2.2
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy902",
+      "TFCount": 211,
+      "CancelRate": 0.9
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy567",
+      "TFCount": 162,
+      "CancelRate": 2.5
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy615",
+      "TFCount": 148,
+      "CancelRate": 2.0
+    },
+    {
+      "SHIPPED_STORE": "Pharmacy838",
+      "TFCount": 17,
+      "CancelRate": 0.0
+    }
+  ],
+  "tfKpis": {
+    "totalTF": 8293,
+    "receivedCount": 6744,
+    "receivedPct": 81.3,
+    "shippedCount": 1135,
+    "createdCount": 132,
+    "canceledCount": 282,
+    "canceledPct": 3.4,
+    "avgLeadTime": 0.52,
+    "sameDayPct": 64.8,
+    "leadTimeGe2Pct": 9.0,
+    "hubOriginPct": 29.4
+  }
+}
