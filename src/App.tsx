@@ -609,7 +609,7 @@ function App() {
           {tab === "transfer" && <TransferOrderTab />}
           {tab === "ai" && <AiTab />}
         </main>
-        <footer className="app-footer">Sales data covers Jan-Jul 2023; Transfer Order data covers Jul 2023. Prepared by Le Quy Phat.</footer>
+        <footer className="app-footer">&copy; {new Date().getFullYear()} Le Quy Phat. All rights reserved.</footer>
       </div>
     </div>
   );
