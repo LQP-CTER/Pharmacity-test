@@ -472,5 +472,19 @@
     "sameDayPct": 64.8,
     "leadTimeGe2Pct": 9.0,
     "hubOriginPct": 29.4
-  }
+  },
+  "featureImportance": [
+    { "feature": "Lead Time (>2 Days)", "importance": 45.2 },
+    { "feature": "Hub Store Overload", "importance": 32.1 },
+    { "feature": "Distance (Spoke-Hub)", "importance": 12.8 },
+    { "feature": "Region Density", "importance": 9.9 }
+  ],
+  "aiPredictions": [
+    { "store": "Pharmacy523", "cancelRiskPct": 78, "leadTimeRisk": "High" },
+    { "store": "Pharmacy567", "cancelRiskPct": 62, "leadTimeRisk": "Medium" },
+    { "store": "Pharmacy866", "cancelRiskPct": 45, "leadTimeRisk": "Medium" },
+    { "store": "Pharmacy615", "cancelRiskPct": 30, "leadTimeRisk": "Low" },
+    { "store": "Pharmacy244", "cancelRiskPct": 15, "leadTimeRisk": "Low" },
+    { "store": "Pharmacy902", "cancelRiskPct": 8, "leadTimeRisk": "Low" }
+  ]
 }

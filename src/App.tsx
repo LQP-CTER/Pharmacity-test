@@ -9,23 +9,119 @@ import "./App.css";
 
 const d = data as DashboardData;
 
-const NAVY = "#1B3A5C";
+const NAVY = "#0f172a";
 const ALL_REGIONS = ["Central", "HCMC", "Mekong Delta", "North", "South East"];
 const ALL_GROUPS = ["Hub", "Spoke", "Other"];
 
 const REGION_COLORS: Record<string, string> = {
-  Central: "#2E6DA4",
-  HCMC: "#E08A2C",
-  "Mekong Delta": "#3D9970",
-  North: "#C0392B",
-  "South East": "#7E57C2",
+  Central: "#64748b",
+  HCMC: "#00a651",
+  "Mekong Delta": "#94a3b8",
+  North: "#cbd5e1",
+  "South East": "#475569",
 };
 const STATUS_COLORS: Record<string, string> = {
-  Received: "#3D9970",
-  Shipped: "#E0A62C",
-  Created: "#2E6DA4",
-  Canceled: "#C0392B",
+  Received: "#10b981",
+  Shipped: "#3b82f6",
+  Created: "#64748b",
+  Canceled: "#ef4444",
 };
+
+async function fetchGroqInsight(promptContext: string, dataContext: string) {
+  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  if (!apiKey) throw new Error("Missing VITE_GROQ_API_KEY in .env");
+
+  const prompt = `You are a Senior Retail Operations Analyst at Pharmacity, analyzing a Hub-Spoke distribution model.
+  Analyze the following data related to: ${promptContext}.
+  Provide exactly two paragraphs. 
+  Paragraph 1 must start with "Insight: " and contain your analysis of the data. 
+  Paragraph 2 must start with "Actionable: " and contain practical recommendations to improve operations.
+  Keep it concise, professional, and focus on bottlenecks, stock availability, and logistics.
+  Do not use any emojis or markdown formatting like **.
+  Data: ${dataContext}`;
+
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: "qwen/qwen3-32b",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.2,
+    })
+  });
+  
+  if (!res.ok) {
+    let errorMsg = res.statusText;
+    try {
+      const errBody = await res.json();
+      if (errBody.error && errBody.error.message) {
+        errorMsg = errBody.error.message;
+      }
+    } catch (e) {
+      // Ignored
+    }
+    throw new Error(`API Error: ${errorMsg}`);
+  }
+  
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
+
+function AiInsight({ context, data }: { context: string; data: any }) {
+  const [insight, setInsight] = useState<string>("");
+  const [actionable, setActionable] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetchGroqInsight(context, JSON.stringify(data));
+      // Remove <think> blocks from reasoning models
+      const cleanResponse = response.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+      const parts = cleanResponse.split(/Actionable:/i);
+      const iText = parts[0].replace(/Insight:/i, "").trim();
+      const aText = parts[1] ? parts[1].trim() : "";
+      setInsight(iText);
+      setActionable(aText);
+    } catch (err: any) {
+      setError(err.message || "Failed to fetch insight");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!insight && !loading && !error) {
+    return (
+      <div className="ai-insight-box ai-insight-empty">
+        <button className="ai-btn" onClick={handleGenerate}>Generate AI Insight</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="ai-insight-box">
+      <div className="ai-insight-header">
+        <h4>AI Insight</h4>
+        <button className="ai-btn ai-btn-small" onClick={handleGenerate} disabled={loading}>
+          {loading ? "Analyzing..." : "Regenerate"}
+        </button>
+      </div>
+      {error && <p className="ai-error">{error}</p>}
+      {loading && !insight && <p className="ai-loading">Analyzing data...</p>}
+      {insight && (
+        <>
+          <p><strong>Insight:</strong> {insight}</p>
+          {actionable && <p><span className="actionable-text">Actionable:</span> {actionable}</p>}
+        </>
+      )}
+    </div>
+  );
+}
 
 interface Filters {
   regions: string[];
@@ -191,6 +287,10 @@ function OverviewTab({ filters }: { filters: Filters }) {
             </LineChart>
           </ResponsiveContainer>
         )}
+        <AiInsight 
+          context="Monthly Net Revenue by Region (Overview)"
+          data={trend}
+        />
       </ChartCard>
     </div>
   );
@@ -238,6 +338,10 @@ function RevenueTab({ filters }: { filters: Filters }) {
             </table>
           </div>
         )}
+        <AiInsight 
+          context="Monthly Revenue by Region and Hub-Spoke Group"
+          data={rows}
+        />
       </ChartCard>
 
       <div className="kpi-grid">
@@ -269,6 +373,10 @@ function RevenueTab({ filters }: { filters: Filters }) {
             </LineChart>
           </ResponsiveContainer>
         )}
+        <AiInsight 
+          context="Revenue Trend by Region (Line Chart)"
+          data={trend}
+        />
       </ChartCard>
     </div>
   );
@@ -288,6 +396,10 @@ function HubOrderTrackingTab() {
             <Line type="monotone" dataKey="Total" stroke={NAVY} strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
           </LineChart>
         </ResponsiveContainer>
+        <AiInsight 
+          context="Transfer Orders created each day by Hub stores, July 2023"
+          data={d.hubTracking}
+        />
       </ChartCard>
 
       <ChartCard title="Hub Orders by Status" subtitle="Same data, broken down by status">
@@ -304,6 +416,10 @@ function HubOrderTrackingTab() {
             <Bar dataKey="Canceled" stackId="s" fill={STATUS_COLORS.Canceled} radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
+        <AiInsight 
+          context="Transfer Orders created each day, broken down by Status (Created, Shipped, Received, Canceled)"
+          data={d.hubTracking}
+        />
       </ChartCard>
 
       <p className="note">
@@ -350,6 +466,10 @@ function TransferOrderTab() {
               <Tooltip contentStyle={{ fontSize: 13, borderRadius: 8, border: "1px solid #e8ebef" }} />
             </PieChart>
           </ResponsiveContainer>
+          <AiInsight 
+            context="Transfer Order Status Distribution (Percentage of Orders Canceled, Shipped, Received)"
+            data={d.tfStatus}
+          />
         </ChartCard>
 
         <ChartCard title="Bottleneck View" subtitle="Which Hub stores ship the most, and where cancellations pile up">
@@ -373,6 +493,60 @@ function TransferOrderTab() {
               </tbody>
             </table>
           </div>
+          <AiInsight 
+            context="Bottleneck View: Which Hub stores ship the most, and where cancellations pile up"
+            data={d.bottleneck}
+          />
+        </ChartCard>
+      </div>
+    </div>
+  );
+}
+
+function AiTab() {
+  return (
+    <div>
+      <SectionLabel text="Academic & Machine Learning" />
+      <div className="grid-2">
+        <ChartCard title="Cancellation Drivers (Feature Importance)" subtitle="Random Forest: Influence on order cancellations">
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart data={d.featureImportance} layout="vertical" margin={{ top: 10, right: 20, left: 40, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e8ebef" horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 12, fill: "#6b7280" }} axisLine={{ stroke: "#e8ebef" }} tickLine={false} />
+              <YAxis dataKey="feature" type="category" tick={{ fontSize: 11, fill: "#334155" }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ fontSize: 13, borderRadius: 8, border: "1px solid #e8ebef" }} />
+              <Bar dataKey="importance" fill="#475569" radius={[0, 4, 4, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+        
+        <ChartCard title="Flight Risk Radar" subtitle="AI Prediction: Hubs with highest probability of bottlenecks and cancellations">
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th className="left">Hub Store</th>
+                  <th>Cancel Risk (%)</th>
+                  <th className="left">Lead Time Alert</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.aiPredictions.map((r, i) => (
+                  <tr key={i}>
+                    <td className="left">{r.store}</td>
+                    <td className={`num${r.cancelRiskPct > 50 ? " flag" : ""}`}>{r.cancelRiskPct}%</td>
+                    <td className="left">
+                      <span className={`badge ${r.leadTimeRisk === "High" ? "badge-other flag" : "badge-spoke"}`}>{r.leadTimeRisk}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <AiInsight 
+            context="Flight Risk Radar - AI Prediction: Hubs with highest probability of bottlenecks and cancellations. Model: Lead Time > 2 Days is the primary driver."
+            data={d.aiPredictions}
+          />
         </ChartCard>
       </div>
     </div>
@@ -380,19 +554,21 @@ function TransferOrderTab() {
 }
 
 const TABS = [
-  { id: "overview", label: "Overview" },
-  { id: "revenue", label: "Revenue Performance" },
-  { id: "tracking", label: "Hub Order Tracking" },
-  { id: "transfer", label: "Transfer Order Ops" },
+  { id: "overview", label: "A · Overview" },
+  { id: "revenue", label: "B · Revenue Performance" },
+  { id: "tracking", label: "C · Order Tracking" },
+  { id: "transfer", label: "D · Transfer Ops" },
+  { id: "ai", label: "E · AI & Machine Learning" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
 
 const TAB_META: Record<TabId, { title: string; subtitle: string; filterable: boolean }> = {
-  overview: { title: "Overview", subtitle: "A quick snapshot of the whole Hub-Spoke network, pulled from all four tasks below", filterable: true },
-  revenue: { title: "Revenue Performance", subtitle: "How revenue breaks down by region and by Hub vs. Spoke, month by month (Task 1)", filterable: true },
-  tracking: { title: "Hub Order Tracking", subtitle: "How many orders Hub stores sent out each day in July (Task 2)", filterable: false },
-  transfer: { title: "Transfer Order Operations", subtitle: "Where orders stand today, and where the process is slowing down (Task 4)", filterable: false },
+  overview: { title: "A · Overview", subtitle: "A quick snapshot of the whole Hub-Spoke network, pulled from all four tasks below", filterable: true },
+  revenue: { title: "B · Revenue Performance", subtitle: "How revenue breaks down by region and by Hub vs. Spoke, month by month (Task 1)", filterable: true },
+  tracking: { title: "C · Hub Order Tracking", subtitle: "How many orders Hub stores sent out each day in July (Task 2)", filterable: false },
+  transfer: { title: "D · Transfer Operations", subtitle: "Where orders stand today, and where the process is slowing down (Task 4)", filterable: false },
+  ai: { title: "E · Predictive Analytics & AI", subtitle: "Machine learning insights predicting Hub bottlenecks and cancellation risks", filterable: false },
 };
 
 function App() {
@@ -431,6 +607,7 @@ function App() {
           {tab === "revenue" && <RevenueTab filters={filters} />}
           {tab === "tracking" && <HubOrderTrackingTab />}
           {tab === "transfer" && <TransferOrderTab />}
+          {tab === "ai" && <AiTab />}
         </main>
         <footer className="app-footer">Sales data covers Jan-Jul 2023; Transfer Order data covers Jul 2023. Prepared by Le Quy Phat.</footer>
       </div>

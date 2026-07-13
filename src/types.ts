@@ -55,6 +55,17 @@ export interface TfKpis {
   hubOriginPct: number;
 }
 
+export interface FeatureImportanceRow {
+  feature: string;
+  importance: number;
+}
+
+export interface AiPredictionRow {
+  store: string;
+  cancelRiskPct: number;
+  leadTimeRisk: string;
+}
+
 export interface DashboardData {
   months: string[];
   revenueTable: RevenueRow[];
@@ -64,4 +75,6 @@ export interface DashboardData {
   tfStatus: TfStatusRow[];
   bottleneck: BottleneckRow[];
   tfKpis: TfKpis;
+  featureImportance: FeatureImportanceRow[];
+  aiPredictions: AiPredictionRow[];
 }
